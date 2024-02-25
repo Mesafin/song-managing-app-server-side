@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  mongo_db:
+    container_name: database_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  app: 
+    image: my-song-app
+    ports: 
+      - 3333:3330
+
+    environment: 
+      DB_URL: mongodb://mongo_db/songs-collection 
+      ORIGIN: https://song-managing-app-client-side.vercel.app
+      PORT: 3330
+      DATABASE_URL: mongodb+srv://song-managing-app:messi%40song-managing-app@cluster0.6hpnf32.mongodb.net/songs-collection?retryWrites=true&w=majority
+    depends_on: 
+      - mongo_db
+
+volumes:
+  mongo_db: {}
